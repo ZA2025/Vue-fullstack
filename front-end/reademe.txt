@@ -7,4 +7,4 @@ on the back end we will run npm run dev
 
 npm install firebase@9.15.0
 
-commiting
+npm run build

@@ -11,6 +11,11 @@ app.use(express.json());
 
 app.use("/images", express.static(path.join(__dirname, "../assets")));
 
+app.use(express.static(
+    path.resolve(__dirname, '../dist'),
+    { maxAge: '1y', etag: false }
+))
+
 app.get('/api/products', async (req, res) => {
     await client.connect();
     const db = client.db('fullstack-vue');
@@ -51,18 +56,6 @@ app.post('/api/users/:userId/cart', async (req, res) => {
     const populatedCart = await populatedCartIds(user.cartItems);
     res.json(populatedCart);
 });
-//app.post('/cart', (req, res) => {
-//    const productId = req.body.id;
-//    cartItems.push(productId);
-//    const populatedCart = populatedCartIds(cartItems);
-//    res.json(populatedCart);
-//});
-//app.delete('/cart/:id', (req, res) => {
-//    const productId = req.params.id;
-//    cartItems = cartItems.filter(id => id !== productId);
-//    const populatedCart = populatedCartIds(cartItems);
-//    res.json(populatedCart);
-//});
 
 app.delete('/api/users/:userId/cart/:id', async (req, res) => {
     await client.connect();
@@ -76,6 +69,10 @@ app.delete('/api/users/:userId/cart/:id', async (req, res) => {
     res.json(populatedCart);
 });
 
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../dist/index.html'));
+});
+
 app.listen(port, () => {
-  console.log('Server is running on port 8000');
+  console.log('Server is running on port' + port);
 });
