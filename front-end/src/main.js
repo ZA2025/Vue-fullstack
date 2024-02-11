@@ -15,7 +15,6 @@ createApp(App)
         { path: "/products", component: ProductsPage },
         { path: "/cart", component: ShoppingCartPage },
         { path: "/products/:id", component: ProductDetailPage },
-        { path: "/", redirect: "/products" },
         { path: "/:pathMatch(.*)*", component: NotFoundPage },
       ],
     })
