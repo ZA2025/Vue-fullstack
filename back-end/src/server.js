@@ -15,6 +15,11 @@ app.use(express.json());
 
 app.use("/images", express.static(path.join(__dirname, "../assets")));
 
+app.use(express.static(
+    path.join(__dirname, '../dist'),
+    { maxAge: '1y', etag: false },
+));
+
 app.get('/api/products', async (req, res) => {
     await client.connect();
     const db = client.db('fullstack-vue');
@@ -173,6 +178,10 @@ app.delete('/api/users/:userId/cart/:id', async (req, res) => {
     res.json(populatedCart);
 });
 
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../dist/index.html'));
+});
+
 app.listen(port, () => {
-  console.log('Server is running on port 8000');
+  console.log(`Server is running on port: ${port}`);
 });
