@@ -24,12 +24,15 @@ export default {
   data() {
     return {
       cartItems: [],
+      userId: localStorage.getItem("userId"),
     };
   },
   methods: {
     async removeFromCart(id) {
       try {
-        const response = await axios.delete(`/api/users/12345/cart/${id}`);
+        const response = await axios.delete(
+          `/api/users/${this.userId}/cart/${id}`
+        );
         const cartItems = response.data;
         this.cartItems = cartItems.filter((item) => item !== null);
       } catch (error) {
@@ -41,7 +44,8 @@ export default {
     ShoppingCartList,
   },
   async created() {
-    const response = await axios.get("/api/users/12345/cart");
+    // I need to get the user id
+    const response = await axios.get(`/api/users/${this.userId}/cart`);
     const cartItems = response.data;
     if (cartItems !== null) {
       this.cartItems = cartItems.filter((item) => item !== null);

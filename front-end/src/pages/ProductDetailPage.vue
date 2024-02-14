@@ -29,6 +29,7 @@ export default {
     return {
       product: {},
       cartItems: [],
+      userId: localStorage.getItem("userId"),
     };
   },
   computed: {
@@ -41,7 +42,7 @@ export default {
   methods: {
     async addToCart() {
       try {
-        await axios.post(`/api/users/12345/cart`, {
+        await axios.post(`/api/users/${this.userId}/cart`, {
           id: this.$route.params.id,
         });
         alert("Added to cart!");
@@ -61,7 +62,7 @@ export default {
       this.product = response.data;
 
       // cart items
-      const cartResponse = await axios.get("/api/users/12345/cart");
+      const cartResponse = await axios.get(`/api/users/${this.userId}/cart`);
       this.cartItems = cartResponse.data;
     } catch (error) {
       console.error("There was an error!", error);

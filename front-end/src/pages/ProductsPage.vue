@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Products</h2>
+    <h2 v-if="email">Welcome back {{ this.email }}</h2>
     <div class="grid-wrap">
       <products-list :products="products" />
     </div>
@@ -16,6 +16,7 @@ export default {
   data() {
     return {
       products: [],
+      email: localStorage.getItem("email"),
     };
   },
   components: {
