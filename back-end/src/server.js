@@ -1,5 +1,6 @@
 import express from 'express';
 import { MongoClient } from 'mongodb';
+const cors = require('cors');
 const app = express();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -7,6 +8,7 @@ const crypto = require('crypto');
 const JWT_SECRET = crypto.randomBytes(32).toString('hex');
 var port = process.env.PORT || 8000;
 import path from 'path';
+app.use(cors());
 
 // Mongodb Connection
 const url = `mongodb+srv://zainabal2023:wbi8KgwsWT59P1ym@cluster0.vxpkth2.mongodb.net/?retryWrites=true&w=majority`;
