@@ -1,17 +1,19 @@
 import express from 'express';
 import { MongoClient } from 'mongodb';
+import dotenv from 'dotenv';
 const cors = require('cors');
 const app = express();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
-const JWT_SECRET = crypto.randomBytes(32).toString('hex');
+const JWT_SECRET = process.env.JWT;
 var port = process.env.PORT || 8000;
 import path from 'path';
 app.use(cors());
+dotenv.config();
 
 // Mongodb Connection
-const url = `mongodb+srv://zainabal2023:wbi8KgwsWT59P1ym@cluster0.vxpkth2.mongodb.net/?retryWrites=true&w=majority`;
+const url = process.env.MONGODB_URL;
 const client = new MongoClient(url);
 app.use(express.json());
 

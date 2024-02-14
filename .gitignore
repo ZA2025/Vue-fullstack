@@ -4,3 +4,4 @@ node_modules
 npm-debug.log
 front-end/readme.txt
 back-end/readme.txt
+back-end/.env
