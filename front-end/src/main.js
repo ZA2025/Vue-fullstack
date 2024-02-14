@@ -29,6 +29,7 @@ createApp(App)
           },
         },
         { path: "/products/:id", component: ProductDetailPage },
+        { path: "/", redirect: "/products" },
         { path: "/:pathMatch(.*)*", component: NotFoundPage },
       ],
     })

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 v-if="email">Welcome back {{ this.email }}</h2>
+    <h1>Products</h1>
     <div class="grid-wrap">
       <products-list :products="products" />
     </div>

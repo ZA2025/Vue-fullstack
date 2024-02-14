@@ -95,7 +95,32 @@ app.post('/api/login', async (req, res) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
 });
-
+// logout route for users
+app.post('/api/logout', async (req, res) => {
+    //cleaning up session data
+    res.status(200).json({
+        token: null,
+        user: null,
+        email: null,
+        message: "Sign out successful"
+    });
+});
+// middleware to verify the token
+function verifyToken(req, res, next) {
+    const token = req.headers['authorization'];
+    if (!token) {
+        return res.status(401).json({ message: "Unauthorized" });
+    }
+    try {
+        const decoded = jwt.verify(token, JWT_SECRET);
+        req.user = decoded;
+        console.log(decoded, req.user, "zaynab");
+        next();
+    } catch (err) {
+        console.error(err);
+        res.status(401).json({ message: "Unauthorized" });
+    }
+}
 // Get the cart items for the user
 app.get('/api/users/:userId/cart', async (req, res) => {
     await client.connect();

@@ -13,6 +13,7 @@
         Item already in card
       </button>
     </div>
+    <div class="notificationMsg" v-if="message.length > 0">{{ message }}</div>
   </div>
   <div v-else>
     <NotFoundPage />
@@ -30,9 +31,13 @@ export default {
       product: {},
       cartItems: [],
       userId: localStorage.getItem("userId"),
+      message: "",
     };
   },
   computed: {
+    isLoggedIn() {
+      return !!localStorage.getItem("token");
+    },
     itemIsInCart() {
       return this.cartItems.some(
         (item) => item !== null && item.id === this.$route.params.id
@@ -41,13 +46,19 @@ export default {
   },
   methods: {
     async addToCart() {
-      try {
-        await axios.post(`/api/users/${this.userId}/cart`, {
-          id: this.$route.params.id,
-        });
-        alert("Added to cart!");
-      } catch (error) {
-        console.error("There was an error!", error);
+      if (!this.isLoggedIn) {
+        alert("You must be logged in to add items to the cart!");
+        return;
+      } else {
+        try {
+          await axios.post(`/api/users/${this.userId}/cart`, {
+            id: this.$route.params.id,
+          });
+          alert("Added to cart!");
+          this.message = "Added to cart!";
+        } catch (error) {
+          console.error("There was an error!", error);
+        }
       }
     },
   },
@@ -60,10 +71,8 @@ export default {
         `/api/products/${this.$route.params.id}`
       );
       this.product = response.data;
-
-      // cart items
-      const cartResponse = await axios.get(`/api/users/${this.userId}/cart`);
-      this.cartItems = cartResponse.data;
+      //const cartResponse = await axios.get(`/api/users/${this.userId}/cart`);
+      //this.cartItems = cartResponse.data;
     } catch (error) {
       console.error("There was an error!", error);
     }
