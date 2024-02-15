@@ -76,6 +76,8 @@ export default {
           // Clear the form
           this.email = "";
           this.password = "";
+          // redirect to login page
+          this.$router.push("/login");
         }
       } catch (error) {
         console.error("There was an error!", error);

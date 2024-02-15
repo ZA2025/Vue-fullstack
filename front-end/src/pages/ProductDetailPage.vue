@@ -34,16 +34,6 @@ export default {
       message: "",
     };
   },
-  computed: {
-    isLoggedIn() {
-      return !!localStorage.getItem("token");
-    },
-    itemIsInCart() {
-      return this.cartItems.some(
-        (item) => item !== null && item.id === this.$route.params.id
-      );
-    },
-  },
   methods: {
     async addToCart() {
       if (!this.isLoggedIn) {
@@ -57,12 +47,28 @@ export default {
               id: this.$route.params.id,
             }
           );
-          alert("Added to cart!");
+          //alert("Added to cart!");
           this.message = "Added to cart!";
+          // push to cartIems
+          this.cartItems.push({ id: this.$route.params.id });
         } catch (error) {
           console.error("There was an error!", error);
         }
       }
+    },
+  },
+  computed: {
+    isLoggedIn() {
+      return !!localStorage.getItem("token");
+    },
+    itemIsInCart() {
+      console.log(this.cartItems);
+      console.log(this.$route.params.id);
+      const result = this.cartItems.some(
+        (item) => item !== null && item.id === this.$route.params.id
+      );
+      console.log(result);
+      return result;
     },
   },
   components: {
@@ -74,8 +80,8 @@ export default {
         `http://localhost:8000/api/products/${this.$route.params.id}`
       );
       this.product = response.data;
-      //const cartResponse = await axios.get(`/api/users/${this.userId}/cart`);
-      //this.cartItems = cartResponse.data;
+      const cartResponse = await axios.get(`/api/users/${this.userId}/cart`);
+      this.cartItems = cartResponse.data;
     } catch (error) {
       console.error("There was an error!", error);
     }

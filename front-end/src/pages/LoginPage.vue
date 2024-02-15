@@ -2,9 +2,7 @@
   <div class="formContainer">
     <h1>Login here:</h1>
     <form @submit.prevent="login" class="loginForm">
-      <span>test@test.com</span>
-      <input type="text" v-model="email" placeholder="email" required />
-      <span>test1234</span>
+      <input type="text" v-model="email" placeholder="Email" required />
       <input
         type="password"
         v-model="password"

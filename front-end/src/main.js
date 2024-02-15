@@ -15,7 +15,17 @@ createApp(App)
       history: VueRouter.createWebHistory(),
       routes: [
         { path: "/products", component: ProductsPage },
-        { path: "/cart", component: ShoppingCartPage },
+        {
+          path: "/cart",
+          component: ShoppingCartPage,
+          beforeEnter: (to, from, next) => {
+            if (!localStorage.getItem("token")) {
+              next({ component: NotFoundPage });
+            } else {
+              next();
+            }
+          },
+        },
         { path: "/register", component: RegisterPage },
         {
           path: "/login",
