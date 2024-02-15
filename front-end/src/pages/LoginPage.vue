@@ -32,7 +32,7 @@ export default {
   methods: {
     async login() {
       try {
-        const response = await axios.post("/api/login", {
+        const response = await axios.post("http://localhost:8000/api/login", {
           email: this.email,
           password: this.password,
         });
