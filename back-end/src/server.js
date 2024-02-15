@@ -20,7 +20,7 @@ app.use(express.json());
 app.use("/images", express.static(path.join(__dirname, "../assets")));
 
 app.use(express.static(
-    path.join(__dirname, '../dist'),
+    path.resolve(__dirname, '../dist'),
     { maxAge: '1y', etag: false },
 ));
 
