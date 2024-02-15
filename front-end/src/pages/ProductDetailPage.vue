@@ -51,9 +51,12 @@ export default {
         return;
       } else {
         try {
-          await axios.post(`/api/users/${this.userId}/cart`, {
-            id: this.$route.params.id,
-          });
+          await axios.post(
+            `http://localhost:8000/api/users/${this.userId}/cart`,
+            {
+              id: this.$route.params.id,
+            }
+          );
           alert("Added to cart!");
           this.message = "Added to cart!";
         } catch (error) {
@@ -68,7 +71,7 @@ export default {
   async created() {
     try {
       const response = await axios.get(
-        `/api/products/${this.$route.params.id}`
+        `http://localhost:8000/api/products/${this.$route.params.id}`
       );
       this.product = response.data;
       //const cartResponse = await axios.get(`/api/users/${this.userId}/cart`);
