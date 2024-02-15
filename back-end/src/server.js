@@ -1,16 +1,16 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import express from 'express';
 import { MongoClient } from 'mongodb';
-import dotenv from 'dotenv';
 const cors = require('cors');
 const app = express();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
-const JWT_SECRET = process.env.JWT;
+const secretKey = process.env.JWT_SECRET;
 var port = process.env.PORT || 8000;
 import path from 'path';
 app.use(cors());
-dotenv.config();
 
 // Mongodb Connection
 const url = process.env.MONGODB_URL;
@@ -89,7 +89,7 @@ app.post('/api/login', async (req, res) => {
         if (!passwordCorrect) {
             return res.status(401).json({ message: "Invalid password" });
         }
-        const token = jwt.sign({ id: existingUser.id, email: existingUser.email }, JWT_SECRET);
+        const token = jwt.sign({ id: existingUser.id, email: existingUser.email }, secretKey);
         res.status(200).json({ 
             token, 
             user: {
@@ -121,7 +121,7 @@ function verifyToken(req, res, next) {
         return res.status(401).json({ message: "Unauthorized" });
     }
     try {
-        const decoded = jwt.verify(token, JWT_SECRET);
+        const decoded = jwt.verify(token, secretKey);
         req.user = decoded;
         console.log(decoded, req.user, "zaynab");
         next();
