@@ -44,11 +44,8 @@ export default {
     ShoppingCartList,
   },
   async created() {
-    // I need to get the user id
     // check cart items
-    const response = await axios.get(
-      `http://localhost:8000/api/users/${this.userId}/cart`
-    );
+    const response = await axios.get(`/api/users/${this.userId}/cart`);
     const cartItems = response.data;
     if (cartItems !== null) {
       this.cartItems = cartItems.filter((item) => item !== null);
