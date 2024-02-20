@@ -18,7 +18,8 @@
 
 <script>
 import ShoppingCartList from "@/components/ShoppingCartList.vue";
-import axios from "axios";
+//import axios from "axios";
+import api from "../api.js";
 export default {
   name: "ShoppingCartPage",
   data() {
@@ -30,7 +31,7 @@ export default {
   methods: {
     async removeFromCart(id) {
       try {
-        const response = await axios.delete(
+        const response = await api.delete(
           `/api/users/${this.userId}/cart/${id}`
         );
         const cartItems = response.data;
@@ -45,7 +46,7 @@ export default {
   },
   async created() {
     // check cart items
-    const response = await axios.get(`/api/users/${this.userId}/cart`);
+    const response = await api.get(`/api/users/${this.userId}/cart`);
     const cartItems = response.data;
     if (cartItems !== null) {
       this.cartItems = cartItems.filter((item) => item !== null);

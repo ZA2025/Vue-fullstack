@@ -18,7 +18,8 @@
 </template>
 
 <script>
-import axios from "axios";
+//import axios from "axios";
+import api from "../api.js";
 export default {
   name: "LoginPage",
   data() {
@@ -30,7 +31,7 @@ export default {
   methods: {
     async login() {
       try {
-        const response = await axios.post("/api/login", {
+        const response = await api.post("/api/login", {
           email: this.email,
           password: this.password,
         });

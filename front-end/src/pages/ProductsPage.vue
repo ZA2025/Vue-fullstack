@@ -10,7 +10,8 @@
 <script>
 //import { products } from "../temp-data";
 import ProductsList from "@/components/ProductsList.vue";
-import axios from "axios";
+//import axios from "axios";
+import api from "../api.js";
 export default {
   name: "ProductsPage",
   data() {
@@ -24,7 +25,7 @@ export default {
   },
   async created() {
     try {
-      const response = await axios.get("/api/products");
+      const response = await api.get("/api/products");
       this.products = response.data;
     } catch (error) {
       console.error("There was an error!", error);

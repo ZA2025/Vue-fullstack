@@ -29,7 +29,8 @@
 </template>
 
 <script>
-import axios from "axios";
+//import axios from "axios";
+import api from "../api.js";
 export default {
   name: "RegisterPage",
   data() {
@@ -60,7 +61,7 @@ export default {
         return;
       }
       try {
-        const response = await axios.get(`/api/users`);
+        const response = await api.get(`/api/users`);
         const users = response.data;
         const matchingUsers = users.filter((user) => user.email === this.email);
         if (matchingUsers.length > 0) {
@@ -68,7 +69,7 @@ export default {
           this.emailError = "Email already registered.";
           return;
         } else {
-          await axios.post("/api/users", {
+          await api.post("/api/users", {
             email: this.email,
             password: this.password,
           });

@@ -22,8 +22,8 @@
 
 <script>
 import NotFoundPage from "./NotFoundPage.vue";
-import axios from "axios";
-
+//import axios from "axios";
+import api from "../api.js";
 export default {
   name: "productDetailPage",
   data() {
@@ -41,7 +41,7 @@ export default {
         return;
       } else {
         try {
-          await axios.post(`/api/users/${this.userId}/cart`, {
+          await api.post(`/api/users/${this.userId}/cart`, {
             id: this.$route.params.id,
           });
           //alert("Added to cart!");
@@ -73,11 +73,9 @@ export default {
   },
   async created() {
     try {
-      const response = await axios.get(
-        `/api/products/${this.$route.params.id}`
-      );
+      const response = await api.get(`/api/products/${this.$route.params.id}`);
       this.product = response.data;
-      const cartResponse = await axios.get(`/api/users/${this.userId}/cart`);
+      const cartResponse = await api.get(`/api/users/${this.userId}/cart`);
       this.cartItems = cartResponse.data;
     } catch (error) {
       console.error("There was an error!", error);
