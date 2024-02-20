@@ -31,7 +31,7 @@ export default {
     async removeFromCart(id) {
       try {
         const response = await axios.delete(
-          `http://localhost:8000/api/users/${this.userId}/cart/${id}`
+          `/api/users/${this.userId}/cart/${id}`
         );
         const cartItems = response.data;
         this.cartItems = cartItems.filter((item) => item !== null);
