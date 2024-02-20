@@ -15,6 +15,15 @@ app.use(cors());
 // Mongodb Connection
 const url = process.env.MONGODB_URL;
 const client = new MongoClient(url);
+
+client.connect(err => {
+    if (err) {
+      console.error('Failed to connect to MongoDB', err);
+    } else {
+      console.log('Connected successfully to MongoDB');
+    }
+});
+
 app.use(express.json());
 
 app.use("/images", express.static(path.join(__dirname, "../assets")));
