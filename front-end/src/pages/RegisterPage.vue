@@ -60,7 +60,9 @@ export default {
         return;
       }
       try {
-        const response = await axios.get(`http://localhost:8000/api/users`);
+        const response = await axios.get(
+          `https://vue-project-b2kl.onrender.com/api/users`
+        );
         const users = response.data;
         const matchingUsers = users.filter((user) => user.email === this.email);
         if (matchingUsers.length > 0) {
@@ -68,7 +70,7 @@ export default {
           this.emailError = "Email already registered.";
           return;
         } else {
-          await axios.post("http://localhost:8000/api/users", {
+          await axios.post("https://vue-project-b2kl.onrender.com/api/users", {
             email: this.email,
             password: this.password,
           });

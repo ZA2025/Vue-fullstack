@@ -31,7 +31,7 @@ export default {
     async removeFromCart(id) {
       try {
         const response = await axios.delete(
-          `http://localhost:8000/api/users/${this.userId}/cart/${id}`
+          `https://vue-project-b2kl.onrender.com/api/users/${this.userId}/cart/${id}`
         );
         const cartItems = response.data;
         this.cartItems = cartItems.filter((item) => item !== null);
@@ -47,7 +47,7 @@ export default {
     // I need to get the user id
     // check cart items
     const response = await axios.get(
-      `http://localhost:8000/api/users/${this.userId}/cart`
+      `https://vue-project-b2kl.onrender.com/api/users/${this.userId}/cart`
     );
     const cartItems = response.data;
     if (cartItems !== null) {

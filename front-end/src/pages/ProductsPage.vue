@@ -24,7 +24,9 @@ export default {
   },
   async created() {
     try {
-      const response = await axios.get("http://localhost:8000/api/products");
+      const response = await axios.get(
+        "https://vue-project-b2kl.onrender.com/api/products"
+      );
       this.products = response.data;
     } catch (error) {
       console.error("There was an error!", error);

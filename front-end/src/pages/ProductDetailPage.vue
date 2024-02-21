@@ -42,7 +42,7 @@ export default {
       } else {
         try {
           await axios.post(
-            `http://localhost:8000/api/users/${this.userId}/cart`,
+            `https://vue-project-b2kl.onrender.com/api/users/${this.userId}/cart`,
             {
               id: this.$route.params.id,
             }
@@ -77,7 +77,7 @@ export default {
   async created() {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/products/${this.$route.params.id}`
+        `https://vue-project-b2kl.onrender.com/api/products/${this.$route.params.id}`
       );
       this.product = response.data;
       const cartResponse = await axios.get(`/api/users/${this.userId}/cart`);

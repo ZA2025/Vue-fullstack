@@ -30,10 +30,13 @@ export default {
   methods: {
     async login() {
       try {
-        const response = await axios.post("http://localhost:8000/api/login", {
-          email: this.email,
-          password: this.password,
-        });
+        const response = await axios.post(
+          "https://vue-project-b2kl.onrender.com/api/login",
+          {
+            email: this.email,
+            password: this.password,
+          }
+        );
         if (response.data.message === "Sign in successful") {
           console.log(response.data);
           // Save the token in local storage
