@@ -1,30 +1,25 @@
 import dotenv from 'dotenv';
-dotenv.config();
 import express from 'express';
 import { MongoClient } from 'mongodb';
-const cors = require('cors');
+import path from 'path';
+import cors from 'cors';
+import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
+import bcrypt from 'bcryptjs';
+
+dotenv.config();
+ 
 const app = express();
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
 const secretKey = process.env.JWT_SECRET;
 var port = process.env.PORT || 8000;
-import path from 'path';
-app.use(cors());
-app.use(express.json());
+ 
 // Mongodb Connection
 const url = process.env.MONGODB_URL;
 const client = new MongoClient(url);
 
-client.connect(err => {
-    if (err) {
-      console.error('Failed to connect to MongoDB', err);
-    } else {
-      console.log('Connected successfully to MongoDB');
-    }
-});
+app.use(cors());
+app.use(express.json());
 
-const db = client.db('fullstack-vue');
 app.use("/images", express.static(path.join(__dirname, "../assets")));
 
 app.use(express.static(
@@ -33,31 +28,31 @@ app.use(express.static(
 ));
 
 app.get('/api/products', async (req, res) => {
-    //await client.connect();
-     
+    await client.connect();
+    const db = client.db('fullstack-vue');
     const products = await db.collection('products').find({}).toArray();
     res.send(products);
 });
 
 // Helper Function
 async function populatedCartIds(ids) {
-    //await client.connect();
-    //const db = client.db('fullstack-vue');
+    await client.connect();
+    const db = client.db('fullstack-vue');
     return Promise.all(ids.map(id => db.collection('products').findOne({ id })));
 }
 
 // get all users
 app.get('/api/users', async (req, res) => {
-    //await client.connect();
-    //const db = client.db('fullstack-vue');
+    await client.connect();
+    const db = client.db('fullstack-vue');
     const users = await db.collection('users').find({}).toArray();
     res.send(users);
 });
 
 // get user by id
 app.post('/api/users', async (req, res) => {
-    //await client.connect();
-    //const db = client.db('fullstack-vue');
+    await client.connect();
+    const db = client.db('fullstack-vue');
     const { email, password } = req.body;
     try {
         const existingUser = await db.collection('users').findOne({ email });
@@ -82,8 +77,8 @@ app.post('/api/users', async (req, res) => {
 
 // Login route for users
 app.post('/api/login', async (req, res) => {
-    //await client.connect();
-    //const db = client.db('fullstack-vue');
+    await client.connect();
+    const db = client.db('fullstack-vue');
     const { email, password } = req.body;
     try {
         const existingUser = await db.collection('users').findOne({ email });
@@ -140,8 +135,8 @@ function verifyToken(req, res, next) {
 }
 // Get the cart items for the user
 app.get('/api/users/:userId/cart', async (req, res) => {
-    //await client.connect();
-    //const db = client.db('fullstack-vue');
+    await client.connect();
+    const db = client.db('fullstack-vue');
     const user = await db.collection('users').findOne({ id: req.params.userId });
     if (!user) {
         return res.status(404).json({ message: "User not found" });
@@ -155,8 +150,8 @@ app.get('/api/users/:userId/cart', async (req, res) => {
 
 // Get the product by id
 app.get('/api/products/:id', async (req, res) => {
-    //await client.connect();
-    //const db = client.db('fullstack-vue');
+    await client.connect();
+    const db = client.db('fullstack-vue');
     const productId = req.params.id;
     const product = await db.collection('products').findOne({ id: productId });
     //products.find((product) => product.id === productId)
@@ -165,8 +160,8 @@ app.get('/api/products/:id', async (req, res) => {
 
 // Add the product to the cart
 app.post('/api/users/:userId/cart', async (req, res) => {
-    //await client.connect();
-    //const db = client.db('fullstack-vue');
+    await client.connect();
+    const db = client.db('fullstack-vue');
     const productId = req.body.id;
     await db.collection('users').updateOne(
         { id: req.params.userId },
@@ -179,8 +174,8 @@ app.post('/api/users/:userId/cart', async (req, res) => {
 
 // Delete the product from the cart
 app.delete('/api/users/:userId/cart/:id', async (req, res) => {
-    //await client.connect();
-    //const db = client.db('fullstack-vue');
+    await client.connect();
+    const db = client.db('fullstack-vue');
     await db.collection('users').updateOne(
         { id: req.params.userId },
         { $pull: { cartItems: req.params.id } }
